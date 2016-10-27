@@ -3,18 +3,11 @@ package streetsimulator;
 import java.util.Random;
 
 public abstract class RoadUser {
-    protected static char[][] board;
     public RoadUser(){
-        if(board == null){
-            board = new char[30][120];
-            for(int i = 0; i < board.length; i++)
-                for(int k = 0; k < board[i].length; k++)
-                    board[i][k] = ' ';
-        }
     }
     public int[] move(int x, int y, char symbol, int speed){
         boolean moved = false;
-        board[y][x] = ' ';
+        GameManager.changeBoardField(x, y, ' ');
         Random ran = new Random();
         int direction; 
         do{
@@ -46,14 +39,8 @@ public abstract class RoadUser {
         return new int[] {x,y};
     }
     protected boolean isAccident(int x, int y){
-        if(board[y][x] != ' ') return true;
+        if(GameManager.getBoard()[y][x] != ' ') return true;
         return false;
     }
     public void przedstawSie(){}
-    public char[][] getBoard(){
-        return board;
-    }
-    public void setBoard(char[][] board){
-        this.board = board;
-    }
 }
