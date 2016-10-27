@@ -1,32 +1,44 @@
 package streetsimulator;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameManager {
     private static char[][] board;
-    private static Pedestrian[] walkers; 
-    private static BikeDecorator[] bikes; 
-    private static CarDecorator[] cars; 
+    private static ArrayList<Pedestrian> walkers; 
+    private static ArrayList<BikeDecorator> bikes; 
+    private static ArrayList<CarDecorator> cars; 
     public static void makeGame(){
         board = new char[30][120];
         for(int i = 0; i < board.length; i++)
             for(int k = 0; k < board[i].length; k++)
                 board[i][k] = ' ';
-        walkers = new Pedestrian[takeNumberElements()];
-        bikes = new BikeDecorator[takeNumberElements()];
-        cars = new CarDecorator[takeNumberElements()];
+        walkers = new ArrayList();
+        bikes = new ArrayList();
+        cars = new ArrayList(); 
         int[] xy;
-        for(int i = 0; i < walkers.length; i++){
+        int size = takeNumberElements(); 
+        for(int i = 0; i < size; i++){
             xy = takeXY(Pedestrian.class);
-            walkers[i] = new Pedestrian(xy[0],xy[1]);
+            walkers.add(new Pedestrian(xy[0],xy[1]));
         }
-        for(int i = 0; i < bikes.length; i++){
+        size = takeNumberElements() + 1; // zakładam że jeden rower będzie bez własciciela 
+        for(int i = 0; i < size; i++){
             xy = takeXY(BikeDecorator.class);
-            bikes[i] = new BikeDecorator(new Pedestrian(xy[0],xy[1]));
+            bikes.add(new BikeDecorator(new Pedestrian(xy[0],xy[1])));
+            if(i >= size - 1){
+                bikes.get(i).setSymbol('>');
+                changeBoardField(xy[0], xy[1], '>');
+            }
         }
-        for(int i = 0; i < cars.length; i++){
+        size = takeNumberElements() + 2; // zakładam że dwa samochody będą bez właściciela
+        for(int i = 0; i < size; i++){
             xy = takeXY(CarDecorator.class);
-            cars[i] = new CarDecorator(new Pedestrian(xy[0], xy[1]));
+            cars.add(new CarDecorator(new Pedestrian(xy[0], xy[1])));
+            if(i >= size - 2){
+                cars.get(i).setSymbol(']');
+                changeBoardField(xy[0], xy[1], ']');
+            }
         }
     }
     public static void drawBoard(){
@@ -64,13 +76,13 @@ public class GameManager {
         }while(!enoughSpace);
         return new int[] {x, y};
     }
-    public static Pedestrian[] getWalkers(){
+    public static ArrayList<Pedestrian> getWalkers(){
         return walkers; 
     }
-    public static BikeDecorator[] getBikes(){
+    public static ArrayList<BikeDecorator> getBikes(){
         return bikes; 
     }
-    public static CarDecorator[] getCars(){
+    public static ArrayList<CarDecorator> getCars(){
         return cars;
     }
     public static char[][] getBoard(){
