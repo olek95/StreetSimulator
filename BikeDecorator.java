@@ -9,7 +9,7 @@ public class BikeDecorator extends VehicleDecorator{
         super(user);
         x = user.getX();
         y = user.getY();
-        board[y][x] = SYMBOL;
+        GameManager.changeBoardField(x, y, SYMBOL);
         using = true;
     }
     public boolean move(){
@@ -17,10 +17,10 @@ public class BikeDecorator extends VehicleDecorator{
         x = newXY[0];
         y = newXY[1];
         if(isAccident(x,y)){
-            board[y][x] = 'W';
+            GameManager.changeBoardField(x, y, 'W');
             return false;
         }
-        board[y][x] = SYMBOL;
+        GameManager.changeBoardField(x, y, SYMBOL);
         return true;
     }
     public boolean getOff(){
@@ -37,6 +37,9 @@ public class BikeDecorator extends VehicleDecorator{
     }
     public static int getSpeed(){
         return SPEED;
+    }
+    public boolean isUsing(){
+        return using;
     }
     public void przedstawSie(){
         user.przedstawSie();
