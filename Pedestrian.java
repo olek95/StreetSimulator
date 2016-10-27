@@ -16,27 +16,29 @@ public class Pedestrian extends RoadUser{
         if(isAccident(x,y) && !isEmptyVehicleNear()){
             GameManager.changeBoardField(x, y, 'W');
             return false;
+        }else{
+            if(isAccident(x,y) && isEmptyVehicleNear())
+                if(GameManager.getBoard()[y][x] == '>'){
+                    System.out.println("WSIADLO");
+                    for(BikeDecorator bike : GameManager.getBikes())
+                        if(bike.getX() == x && bike.getY() == y){
+                            bike.setSymbol('<');
+                            GameManager.changeBoardField(x, y, '<');
+                        }
+                }else{
+                    for(CarDecorator car : GameManager.getCars())
+                        if(car.getX() == x && car.getY() == y){
+                            car.setSymbol('[');
+                            GameManager.changeBoardField(x, y, '[');
+                        }
+                }
+            else GameManager.changeBoardField(x, y, SYMBOL);
         }
-        if(isEmptyVehicleNear())
-            if(GameManager.getBoard()[y][x] == '^') GameManager.makeBike();
-            else GameManager.makeCar();
-        GameManager.changeBoardField(x, y, SYMBOL);
         return true;
     }
     private boolean isEmptyVehicleNear(){
         char[][] board = GameManager.getBoard();
-        if(board[y][x] == '^'){
-            BikeDecorator[] bikes = GameManager.getBikes();
-            for(int i = 0; i < bikes.length; i++)
-                if(bikes[i].getX() == x && bikes[i].getY() == y && !bikes[i].isUsing())
-                    return true;
-        }
-        if(board[y][x] == '$'){
-            CarDecorator[] cars = GameManager.getCars(); 
-            for(int i = 0; i < cars.length; i++)
-                if(cars[i].getX() == x && cars[i].getY() == y && !cars[i].isUsing())
-                    return true;
-        }
+        if(board[y][x] == '>' || board[y][x] == ']') return true;
         return false;
     }
     public int getX(){
