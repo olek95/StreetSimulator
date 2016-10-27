@@ -9,17 +9,17 @@ public class CarDecorator extends VehicleDecorator{
         super(user);
         x = user.getX(); 
         y = user.getY();
-        board[y][x] = SYMBOL;
+        GameManager.changeBoardField(x, y, SYMBOL);
     }
     public boolean move(){
         int[] newXY = super.move(x, y, SYMBOL, SPEED);
         x = newXY[0];
         y = newXY[1];
         if(isAccident(x,y)){
-            board[y][x] = 'W';
+            GameManager.changeBoardField(x, y, 'W');
             return false;
         }
-        board[y][x] = SYMBOL;
+        GameManager.changeBoardField(x, y, SYMBOL);
         return true;
     }
     public int getX(){
@@ -30,6 +30,9 @@ public class CarDecorator extends VehicleDecorator{
     }
     public static int getSpeed(){
         return SPEED;
+    }
+    public boolean isUsing(){
+        return using;
     }
     public void przedstawSie(){
         user.przedstawSie(); 
