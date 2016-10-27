@@ -7,18 +7,37 @@ public class Pedestrian extends RoadUser{
     public Pedestrian(int x, int y){
         this.x = x;
         this.y = y;
-        board[y][x] = SYMBOL;
+        GameManager.changeBoardField(x, y, SYMBOL);
     }
     public boolean move(){
         int[] newXY = super.move(x, y, SYMBOL, SPEED);
         x = newXY[0];
         y = newXY[1];
-        if(isAccident(x,y)){
-            board[y][x] = 'W';
+        if(isAccident(x,y) && !isEmptyVehicleNear()){
+            GameManager.changeBoardField(x, y, 'W');
             return false;
         }
-        board[y][x] = SYMBOL;
+        if(isEmptyVehicleNear())
+            if(GameManager.getBoard()[y][x] == '^') GameManager.makeBike();
+            else GameManager.makeCar();
+        GameManager.changeBoardField(x, y, SYMBOL);
         return true;
+    }
+    private boolean isEmptyVehicleNear(){
+        char[][] board = GameManager.getBoard();
+        if(board[y][x] == '^'){
+            BikeDecorator[] bikes = GameManager.getBikes();
+            for(int i = 0; i < bikes.length; i++)
+                if(bikes[i].getX() == x && bikes[i].getY() == y && !bikes[i].isUsing())
+                    return true;
+        }
+        if(board[y][x] == '$'){
+            CarDecorator[] cars = GameManager.getCars(); 
+            for(int i = 0; i < cars.length; i++)
+                if(cars[i].getX() == x && cars[i].getY() == y && !cars[i].isUsing())
+                    return true;
+        }
+        return false;
     }
     public int getX(){
         return x; 
