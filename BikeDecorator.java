@@ -1,13 +1,12 @@
 package streetsimulator;
 
 public class BikeDecorator extends VehicleDecorator{
-    private char symbol = '<';
     private final static int SPEED = 2;
-    private int x, y;
     public BikeDecorator(Pedestrian user){
         super(user);
         x = user.getX();
         y = user.getY();
+        symbol = '<';
         GameManager.changeBoardField(x, y, symbol);
     }
     public boolean move(){
@@ -23,24 +22,16 @@ public class BikeDecorator extends VehicleDecorator{
     }
     public boolean getOff(){
         //using = false;
-        boolean done = ((Pedestrian)user).move(); 
-        System.out.println("PIESZY");
-        return done;
-    }
-    public int getX(){
-        return x; 
-    }
-    public int getY(){
-        return y; 
+        System.out.println("WYSIADL Z ROWERA");
+        Pedestrian walker = new Pedestrian(x,y);
+        walker.move();
+        GameManager.getWalkers().add(walker);
+        symbol = '>';
+        GameManager.changeBoardField(x, y, symbol);
+        return true;
     }
     public static int getSpeed(){
         return SPEED;
-    }
-    public void setSymbol(char symbol){
-        this.symbol = symbol;
-    }
-    public char getSymbol(){
-        return symbol;
     }
     public void przedstawSie(){
         user.przedstawSie();
