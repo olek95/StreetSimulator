@@ -23,22 +23,22 @@ public class GameManager {
             walkers.add(new Pedestrian(xy[0],xy[1]));
         }
         size = takeNumberElements() + 1; // zakładam że jeden rower będzie bez własciciela 
-        for(int i = 0; i < size; i++){
+        /*for(int i = 0; i < size; i++){
             xy = takeXY(BikeDecorator.class);
             bikes.add(new BikeDecorator(new Pedestrian(xy[0],xy[1])));
             if(i >= size - 1){
                 bikes.get(i).setSymbol('>');
                 changeBoardField(xy[0], xy[1], '>');
             }
-        }
-        size = takeNumberElements() + 2; // zakładam że dwa samochody będą bez właściciela
+        }*/
+        size = 10 + 2; // zakładam że dwa samochody będą bez właściciela
         for(int i = 0; i < size; i++){
             xy = takeXY(CarDecorator.class);
             cars.add(new CarDecorator(new Pedestrian(xy[0], xy[1])));
-            if(i >= size - 2){
+           // if(i >= size - 2){
                 cars.get(i).setSymbol(']');
                 changeBoardField(xy[0], xy[1], ']');
-            }
+           // }
         }
     }
     public static void drawBoard(){
