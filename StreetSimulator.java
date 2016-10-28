@@ -12,7 +12,7 @@ public class StreetSimulator {
         boolean done = true;
         do{
             System.out.println("----------------------");
-            for(BikeDecorator bike : bikes){
+            /*for(BikeDecorator bike : bikes){
                 if(bike.getSymbol() != '>'){
                     done = bike.move();
                     if(!done) {
@@ -20,20 +20,26 @@ public class StreetSimulator {
                         break;
                     }
                 }
-            }
+            }*/
             if(!done) break;
             for(CarDecorator car : cars){
                 if(car.getSymbol() != ']'){
-                    car.move();
-                    if(!done) {
-                        System.out.println("AUTO");
-                        break;
+                    if(car.getMilage() != 5){
+                        car.move();
+                        car.changeMilage(1);
+                        if(!done) {
+                            System.out.println("AUTO");
+                            break;
+                        }
+                    }else{
+                        car.changeMilage(-5);
+                        car.getOff();
                     }
                 }
             }
             if(!done) break;
-            for(Pedestrian walker : walkers){
-                done = walker.move(); 
+            for(int i = 0; i < walkers.size(); i++){
+                done = walkers.get(i).move(); 
                 if(!done) {
                     System.out.println("PIESZY");
                     break;
@@ -45,3 +51,4 @@ public class StreetSimulator {
         GameManager.drawBoard();
     }
 }
+
