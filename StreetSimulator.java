@@ -23,7 +23,7 @@ public class StreetSimulator {
             }*/
             if(!done) break;
             for(CarDecorator car : cars){
-                if(car.getSymbol() != ']'){
+                if(car.symbol != ']'){
                     if(car.getMilage() != 5){
                         car.move();
                         car.changeMilage(1);
@@ -51,4 +51,3 @@ public class StreetSimulator {
         GameManager.drawBoard();
     }
 }
-
