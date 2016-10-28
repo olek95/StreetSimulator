@@ -3,6 +3,7 @@ package streetsimulator;
 import java.util.Random;
 
 public abstract class RoadUser {
+    protected int x, y;
     public RoadUser(){
     }
     public int[] move(int x, int y, char symbol, int speed){
@@ -41,6 +42,12 @@ public abstract class RoadUser {
     protected boolean isAccident(int x, int y){
         if(GameManager.getBoard()[y][x] != ' ') return true;
         return false;
+    }
+    public int getX(){
+        return x; 
+    }
+    public int getY(){
+        return y; 
     }
     public void przedstawSie(){}
 }
