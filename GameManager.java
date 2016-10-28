@@ -36,7 +36,7 @@ public class GameManager {
             xy = takeXY(CarDecorator.class);
             cars.add(new CarDecorator(new Pedestrian(xy[0], xy[1])));
            // if(i >= size - 2){
-                cars.get(i).setSymbol(']');
+                cars.get(i).symbol = ']';
                 changeBoardField(xy[0], xy[1], ']');
            // }
         }
@@ -92,3 +92,4 @@ public class GameManager {
         board[y][x] = c;
     }
 }
+
