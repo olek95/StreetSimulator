@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Pedestrian extends RoadUser{
     private final static char SYMBOL = '*';
     private final static int SPEED = 1;
-    private int x, y;
     public Pedestrian(int x, int y){
         this.x = x;
         this.y = y;
