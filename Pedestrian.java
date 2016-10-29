@@ -1,7 +1,11 @@
 package streetsimulator;
 
 import java.util.ArrayList;
-
+/**
+ * Obiekt klasy <code>Pedestrian</code> reprezentuje pieszego, który oprócz 
+ * poruszania się, posiada również zdolność do wsiadania do pojazdów. 
+ * @author AleksanderSklorz
+ */
 public class Pedestrian extends RoadUser{
     private final static char SYMBOL = '*';
     private final static int SPEED = 1;
@@ -10,6 +14,11 @@ public class Pedestrian extends RoadUser{
         this.y = y;
         GameManager.changeBoardField(x, y, SYMBOL);
     }
+    /**
+     * Przemieszcza pieszego w losowym kierunku. Posiada zdolność automatycznego 
+     * rozpoznawiania czy wystąpił wypadek oraz czy w pobliżu jest wolny pojazd. 
+     * @return wartość logiczna informująca czy przemieszczenie się udało (jeśli zmieniono pozycję lub wsiadło się do pojazdu) lub nie udało (gdy doszło do wypadku)
+     */
     public boolean move(){
         int[] newXY = super.move(x, y, SYMBOL, SPEED);
         x = newXY[0];
@@ -57,16 +66,11 @@ public class Pedestrian extends RoadUser{
         if(board[y][x] == '>' || board[y][x] == ']') return true;
         return false;
     }
-    public int getX(){
-        return x; 
-    }
-    public int getY(){
-        return y; 
-    }
+    /**
+     * Zwraca prędkość pieszego. 
+     * @return prędkość pieszego. 
+     */
     public static int getSpeed(){
         return SPEED;
-    }
-    public void przedstawSie(){
-        System.out.print("Jestem pieszym");
     }
 }
