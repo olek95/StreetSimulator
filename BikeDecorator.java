@@ -21,7 +21,6 @@ public class BikeDecorator extends VehicleDecorator{
         return true;
     }
     public boolean getOff(){
-        //using = false;
         System.out.println("WYSIADL Z ROWERA");
         Pedestrian walker = new Pedestrian(x,y);
         walker.move();
@@ -32,9 +31,5 @@ public class BikeDecorator extends VehicleDecorator{
     }
     public static int getSpeed(){
         return SPEED;
-    }
-    public void przedstawSie(){
-        user.przedstawSie();
-        System.out.print(" na rowerze.");
     }
 }
