@@ -22,20 +22,15 @@ public class CarDecorator extends VehicleDecorator{
         return true;
     }
     public boolean getOff(){
-        //using = false;
         System.out.println("WYSIADL Z AUTA");
         Pedestrian walker = new Pedestrian(x,y);
-        walker.move();
+        boolean done = walker.move();
         GameManager.getWalkers().add(walker);
         symbol = ']';
         GameManager.changeBoardField(x, y, symbol);
-        return true;
+        return done;
     }
     public static int getSpeed(){
         return SPEED;
-    }
-    public void przedstawSie(){
-        user.przedstawSie(); 
-        System.out.print(" w samochodzie.");
     }
 }
