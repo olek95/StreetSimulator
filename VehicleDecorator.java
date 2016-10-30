@@ -6,21 +6,15 @@ package streetsimulator;
 public abstract class VehicleDecorator extends RoadUser{
     protected Pedestrian user;
     protected int milage;
-    protected char symbol;
     public VehicleDecorator(Pedestrian user){
         this.user = user;
     }
     /**
      * Pozwala na przemieszczenie pojazdu. 
-     * @param x aktualna współrzędna pozioma. 
-     * @param y aktualna współrzędna pionowa. 
-     * @param symbol oznaczenie pojazdu. 
-     * @param speed prędkość pojazdu.
-     * @return tablica dwuelementowa, gdzie pierwszy element to nowa współrzędna x, a drugi nowa współrzędna y.
+     * @return zawsze true (typ boolean aby można było nadpisać w podklasach)
      */
-    public int[] move(int x, int y, char symbol, int speed){
-        int[] newXY = super.move(x, y, symbol, speed);
-        return newXY;
+    public boolean move(){
+        return super.move();
     } 
     /**
      * Pozwala na zmianę przebytej odległości. 
