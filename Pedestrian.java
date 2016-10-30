@@ -7,12 +7,12 @@ import java.util.ArrayList;
  * @author AleksanderSklorz
  */
 public class Pedestrian extends RoadUser{
-    private final static char SYMBOL = '*';
-    private final static int SPEED = 1;
     public Pedestrian(int x, int y){
         this.x = x;
         this.y = y;
-        GameManager.changeBoardField(x, y, SYMBOL);
+        symbol = '*';
+        speed = 1;
+        GameManager.changeBoardField(x, y, symbol);
     }
     /**
      * Przemieszcza pieszego w losowym kierunku. Posiada zdolność automatycznego 
@@ -20,9 +20,7 @@ public class Pedestrian extends RoadUser{
      * @return wartość logiczna informująca czy przemieszczenie się udało (jeśli zmieniono pozycję lub wsiadło się do pojazdu) lub nie udało (gdy doszło do wypadku)
      */
     public boolean move(){
-        int[] newXY = super.move(x, y, SYMBOL, SPEED);
-        x = newXY[0];
-        y = newXY[1];
+        super.move();
         if(isAccident(x,y)){
             if(!isEmptyVehicleNear()){
                 GameManager.changeBoardField(x, y, 'W');
@@ -36,10 +34,11 @@ public class Pedestrian extends RoadUser{
                         BikeDecorator bike;
                         do{
                             bike = bikes.get(i);
-                            if(bike.getX() == x && bike.getY() == y) 
+                            if(bike.x == x && bike.y == y) 
                                 found = true;
                             if(!found) i++;
                         }while(!found);
+                        System.out.println("ROWER");
                         bikes.set(i, new BikeDecorator(this));
                         GameManager.getWalkers().remove(this);
                     }else{
@@ -47,28 +46,21 @@ public class Pedestrian extends RoadUser{
                         CarDecorator car;
                         do{
                             car = cars.get(i);
-                            if(car.getX() == x && car.getY() == y)
+                            if(car.x == x && car.y == y)
                                 found = true;
                             if(!found) i++;
                         }while(!found);
+                        System.out.println("AUTO");
                         cars.set(i, new CarDecorator(this));
                         GameManager.getWalkers().remove(this);
                     }
                 }
             }
-        }else GameManager.changeBoardField(x, y, SYMBOL);
+        }else GameManager.changeBoardField(x, y, symbol);
         return true;
     }
     private boolean isEmptyVehicleNear(){
         char[][] board = GameManager.getBoard();
-        if(board[y][x] == '>' || board[y][x] == ']') return true;
-        return false;
-    }
-    /**
-     * Zwraca prędkość pieszego. 
-     * @return prędkość pieszego. 
-     */
-    public static int getSpeed(){
-        return SPEED;
+        return board[y][x] == '>' || board[y][x] == ']';
     }
 }
