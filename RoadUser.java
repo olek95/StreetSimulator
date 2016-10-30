@@ -36,7 +36,7 @@ public abstract class RoadUser {
                         }
                         break;
                     case 1:
-                        if(x + speed < GameManager.getBoardWidth()){
+                        if(x + speed < GameManager.getBoardWidth() - 1){ // -1 bo na końcu tablicy jest krawędź planszy | 
                             x += speed; 
                             moved = true;
                         }
@@ -48,7 +48,7 @@ public abstract class RoadUser {
                         }
                         break;
                     default:
-                        if(x - speed >= 0){
+                        if(x - speed >= 1){
                             x -= speed;
                             moved = true;
                         }
