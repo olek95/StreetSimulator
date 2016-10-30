@@ -26,26 +26,32 @@ public abstract class RoadUser {
         Random ran = new Random();
         int direction; 
         do{
-            direction = ran.nextInt(4);
+            direction = ran.nextInt(4); 
             if(direction != (previousDirection ^ 2)) // warunek chroniący przed powrotem na poprzednie pole. previousDirection przechowuje poprzedni kierunek a XOR go obraca
-                if(direction == 0 && y - speed >= 0){
-                    y -= speed;
-                    moved = true;
-                }else{
-                    if(direction == 1 && x + speed < 120){
-                        x += speed;
-                        moved = true;
-                    }else{
-                        if(direction == 2 && y + speed < 30){
-                            y += speed;
+                switch(direction){
+                    case 0:
+                        if(y - speed >= 0){
+                            y -= speed; 
                             moved = true;
-                        }else{
-                            if(x - speed >= 0){
-                                x -= speed;
-                                moved = true;
-                            }
                         }
-                    }
+                        break;
+                    case 1:
+                        if(x + speed < GameManager.getBoardWidth()){
+                            x += speed; 
+                            moved = true;
+                        }
+                        break;
+                    case 2:
+                        if(y + speed < GameManager.getBoardHeight()){
+                            y += speed; 
+                            moved = true;
+                        }
+                        break;
+                    default:
+                        if(x - speed >= 0){
+                            x -= speed;
+                            moved = true;
+                        }
                 }
         }while(!moved);
         previousDirection = direction;
