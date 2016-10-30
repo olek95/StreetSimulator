@@ -20,59 +20,74 @@ public class StreetSimulator {
         Scanner in = new Scanner(System.in);
         while(!in.nextLine().equals("")){ // czeka na wciśnięcie entera 
         }
-        GameManager.makeGame();
+        System.out.println("Domyślne rozmiary planszy do gry 79x21. Jeśli chcesz je zmienić wpisz T, aby zastosować domyślne rozmiary "
+                + "wpisz N (należy zmienić rozmiar szczególnie wtedy, jeśli wymiary konsoli uniemożliwią wyświetlenie całej planszy).");
+        char change;
+        do{
+            change = Character.toUpperCase(in.next().charAt(0));
+        }while(change != 'T' && change != 'N');
+        if(change == 'N') GameManager.makeGame(79, 21);
+        else{
+            System.out.print("Podaj szerokość: ");
+            int width = in.nextInt();
+            System.out.print("Podaj wysokość: ");
+            int height = in.nextInt();
+            GameManager.makeGame(width, height);
+        }
         ArrayList<Pedestrian> walkers = GameManager.getWalkers();
         ArrayList<BikeDecorator> bikes = GameManager.getBikes();
         ArrayList<CarDecorator> cars = GameManager.getCars();
+        String option;
         int round = 0;
         boolean done = true;
         Random rand = new Random();
-        String option = "pusty";
+        do{ 
+            option = in.nextLine();
+        }while(!option.equals(" ") && !option.equals("")); // czeka na wciśnięcie entera lub spacji
         do{
             round++;
+            int i = 0;
             System.out.println("----------------------Runda " + round + "----------------------");
             GameManager.drawBoard(); 
-            for(BikeDecorator bike : bikes){
+            BikeDecorator bike;
+            do{
+                bike = bikes.get(i);
                 if(bike.symbol != '>'){
                     if(bike.getMilage() != 5){ // zakładam że po takim dystansie, element losuje czy chce wyjść z pojazdu czy nie
                         done = bike.move();
-                        bike.changeMilage(1);
-                        if(!done) {
-                            System.out.println("Rower spowodował wypadek.");
-                            break;
-                        }
+                        bike.changeMilage(1); // zakładam że każda tura będzie zwiększać przebieg o 1
+                        if(!done) System.out.println("Rower spowodował wypadek.");
                     }else{
                         bike.changeMilage(-5);
-                        if(rand.nextBoolean())
-                            done = bike.getOff();
+                        if(rand.nextBoolean()) done = bike.getOff();
                     }
                 }
-            }
-            if(!done) break;
-            for(CarDecorator car : cars){
-                if(car.symbol != ']'){
-                    if(car.getMilage() != 5){
-                        done = car.move();
-                        car.changeMilage(1);
-                        if(!done) {
-                            System.out.println("Auto spowodowało wypadek.");
-                            break;
+                i++;
+            }while(i < bikes.size() && done);
+            i = 0;
+            CarDecorator car;
+            if(done)
+                do{
+                    car = cars.get(i);
+                    if(car.symbol != ']'){
+                        if(car.getMilage() != 5){
+                            done = car.move();
+                            car.changeMilage(1);
+                            if(!done) System.out.println("Auto spowodowało wypadek.");
+                        }else{
+                            car.changeMilage(-5);
+                            if(rand.nextBoolean()) done = car.getOff();
                         }
-                    }else{
-                        car.changeMilage(-5);
-                        if(rand.nextBoolean())
-                            done = car.getOff();
                     }
-                }
-            }
-            if(!done) break;
-            for(int i = 0; i < walkers.size(); i++){
-                done = walkers.get(i).move(); 
-                if(!done) {
-                    System.out.println("Pieszy spowodował wypadek.");
-                    break;
-                }
-            }
+                    i++;
+                }while(i < cars.size() && done);
+            i = 0;
+            if(done)
+                do{
+                    done = walkers.get(i).move(); 
+                    if(!done) System.out.println("Pieszy spowodował wypadek.");
+                    i++;
+                }while(i < walkers.size() && done);
             if(!option.equals(" "))
                 do{ 
                     option = in.nextLine();
