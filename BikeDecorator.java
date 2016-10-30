@@ -33,7 +33,6 @@ public class BikeDecorator extends VehicleDecorator{
      * @return true jeśli po opuszczeniu rowera pieszy nie wpada na inny element, false w przeciwnym przypadku.
      */
     public boolean getOff(){
-        System.out.println("WYSIADL Z ROWERA");
         Pedestrian walker = new Pedestrian(x,y);
         boolean done = walker.move();
         GameManager.getWalkers().add(walker);
