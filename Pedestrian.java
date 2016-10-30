@@ -32,7 +32,6 @@ public class Pedestrian extends RoadUser{
                     boolean found = false;
                     int i = 0;
                     if(GameManager.getBoard()[y][x] == '>'){
-                        System.out.println("WSIADLO ROWER");
                         ArrayList<BikeDecorator> bikes = GameManager.getBikes();
                         BikeDecorator bike;
                         do{
@@ -44,7 +43,6 @@ public class Pedestrian extends RoadUser{
                         bikes.set(i, new BikeDecorator(this));
                         GameManager.getWalkers().remove(this);
                     }else{
-                        System.out.println("WSIADLO AUTO");
                         ArrayList<CarDecorator> cars = GameManager.getCars();
                         CarDecorator car;
                         do{
