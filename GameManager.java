@@ -13,6 +13,7 @@ public class GameManager {
     private static ArrayList<Pedestrian> walkers; 
     private static ArrayList<BikeDecorator> bikes; 
     private static ArrayList<CarDecorator> cars; 
+    private final static int BOARD_WIDTH = 119, BOARD_HEIGHT = 26;
     /**
      * Tworzy grę - planszę do gry oraz użytkowników drogi (pieszych, rowerów i samochody). 
      * Liczba użytkowników drogi jest dobierana losowo z pewnego zakresu. Również położenie 
@@ -20,7 +21,7 @@ public class GameManager {
      * początkowym położeniem obiektów ma być pewna odległość wolna aby zaraz na początku się nie zderzyły). 
      */
     public static void makeGame(){
-        board = new char[30][120];
+        board = new char[BOARD_HEIGHT][BOARD_WIDTH];
         for(int i = 0; i < board.length; i++)
             for(int k = 0; k < board[i].length; k++)
                 board[i][k] = ' ';
@@ -63,7 +64,7 @@ public class GameManager {
         }
     }
     private static int takeNumberElements(){
-        return new Random().nextInt(3) + 1;
+        return new Random().nextInt(3) + 1; // zakładam że danego rodzaju użytkownika drogi może być początkwo od 1 do 3
     }
     private static int[] takeXY(Class roadUserClass){
         Random rand = new Random();
@@ -74,17 +75,17 @@ public class GameManager {
         else speed = CarDecorator.getSpeed();
         do{
             enoughSpace = true;
-            x = rand.nextInt(120); 
-            y = rand.nextInt(30);
+            x = rand.nextInt(BOARD_WIDTH); 
+            y = rand.nextInt(BOARD_HEIGHT);
             int i = x - speed;
             do{
-                if(i >= 0 && i < 120 && board[y][i] != ' ') enoughSpace = false;
+                if(i >= 0 && i < BOARD_WIDTH && board[y][i] != ' ') enoughSpace = false;
                 i++;
             }while(enoughSpace && i <= x + speed);
             i = y - speed;
             if(enoughSpace)
                 do{
-                    if(i >= 0 && i < 30 && board[i][x] != ' ') enoughSpace = false;
+                    if(i >= 0 && i < BOARD_HEIGHT && board[i][x] != ' ') enoughSpace = false;
                     i++;
                 }while(enoughSpace && i <= y + speed);
         }while(!enoughSpace);
@@ -127,5 +128,18 @@ public class GameManager {
     public static void changeBoardField(int x, int y, char c){
         board[y][x] = c;
     }
+    /**
+     * Zwraca szerokość planszy do gry. 
+     * @return szerokość planszy. 
+     */
+    public static int getBoardWidth(){
+        return BOARD_WIDTH;
+    }
+    /**
+     * Zwraca wysokość planszy do gry. 
+     * @return wysokość planszy.
+     */
+    public static int getBoardHeight(){
+        return BOARD_HEIGHT;
+    }
 }
-
