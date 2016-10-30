@@ -34,7 +34,6 @@ public class CarDecorator extends VehicleDecorator{
      * @return true jeśli po opuszczeniu samochodu pieszy nie wpada na inny element, false w przeciwnym przypadku.
      */
     public boolean getOff(){
-        System.out.println("WYSIADL Z AUTA");
         Pedestrian walker = new Pedestrian(x,y);
         boolean done = walker.move();
         GameManager.getWalkers().add(walker);
