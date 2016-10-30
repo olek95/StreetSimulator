@@ -5,12 +5,12 @@ package streetsimulator;
  * @author AleksanderSklorz
  */
 public class CarDecorator extends VehicleDecorator{
-    private final static int SPEED = 3;
     public CarDecorator(Pedestrian user){
         super(user);
-        x = user.getX(); 
-        y = user.getY();
+        x = user.x; 
+        y = user.y;
         symbol = '[';
+        speed = 3;
         milage = 0;
         GameManager.changeBoardField(x, y, symbol);
     }
@@ -19,9 +19,7 @@ public class CarDecorator extends VehicleDecorator{
      * @return true jeśli przemieszczenie się udało, false jeśli doszło do wypadku. 
      */
     public boolean move(){
-        int[] newXY = super.move(x, y, symbol, SPEED);
-        x = newXY[0];
-        y = newXY[1];
+        super.move();
         if(isAccident(x,y)){
             GameManager.changeBoardField(x, y, 'W');
             return false;
@@ -40,12 +38,5 @@ public class CarDecorator extends VehicleDecorator{
         symbol = ']';
         GameManager.changeBoardField(x, y, symbol);
         return done;
-    }
-    /**
-     * Zwraca prędkość samochodu.
-     * @return prędkość samochodu. 
-     */
-    public static int getSpeed(){
-        return SPEED;
     }
 }
