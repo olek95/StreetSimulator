@@ -19,6 +19,8 @@ public class GameManager {
      * Liczba użytkowników drogi jest dobierana losowo z pewnego zakresu. Również położenie 
      * użytkowników drogi jest wybierane losowo (przy takim założeniu, iż pomiędzy 
      * początkowym położeniem obiektów ma być pewna odległość wolna aby zaraz na początku się nie zderzyły). 
+     * @param boardWidth szerokość planszy. 
+     * @param boardHeight wysokość planszy. 
      */
     public static void makeGame(int boardWidth, int boardHeight){
         GameManager.boardWidth = boardWidth;
@@ -72,9 +74,9 @@ public class GameManager {
         Random rand = new Random();
         int x, y, speed;
         boolean enoughSpace;
-        if(roadUserClass.equals(Pedestrian.class)) speed = Pedestrian.getSpeed();
-        else if(roadUserClass.equals(BikeDecorator.class)) speed = BikeDecorator.getSpeed();
-        else speed = CarDecorator.getSpeed();
+        if(roadUserClass.equals(Pedestrian.class)) speed = 1;
+        else if(roadUserClass.equals(BikeDecorator.class)) speed = 2;
+        else speed = 3;
         do{
             enoughSpace = true;
             x = rand.nextInt(boardWidth - 2) + 1; // +1 i -2 aby nie umieścić na krawędzi planszy | 
