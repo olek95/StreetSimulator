@@ -7,20 +7,19 @@ import java.util.Random;
  * @author AleksanderSklorz
  */
 public abstract class RoadUser {
-    protected int x, y, previousDirection = -1;
+    protected int x, y, previousDirection = -1, speed;
+    protected char symbol;
     public RoadUser(){
     }
     /**
-     * Przemieszcza element na inną losową pozycję. Zwraca dwuelementową tablicę, w której 
-     * pierwszy element to współrzędna x, drugi element to współrzedna y nowej pozycji. 
-     * Metoda zapewnia ochronę przed powrotem na poprzednią pozycję oraz przed wykroczeniem poza planszę gry.
-     * @param x aktualna współrzędna w poziomie.
-     * @param y aktualna współrzędna w pionie. 
-     * @param symbol oznaczenie użytkownika.
-     * @param speed prędkość użytkownika. 
-     * @return dwuelementowa tablica z nowymi współrzędnymi położenia użytkownika. 
+     * Przemieszcza element na inną losową pozycję. Metoda zapewnia ochronę przed 
+     * powrotem na poprzednią pozycję oraz przed wykroczeniem poza planszę gry.
+     * Dzięki temu zawsze będzie zwracała true, jednak mimo tego aby nie było dwóch 
+     * tych samych metod, gdzie w klasie RoadUser ta metoda zwracałaby nic, a w podklasach
+     * zwracałaby typ boolean, postanowiłem dla jednoznaczności zwracać tu też typ boolean i nadpisać tą metodę w podklasach.
+     * @return zawsze true (typ boolean aby można było nadpisać w podklasach)
      */
-    protected int[] move(int x, int y, char symbol, int speed){
+    protected boolean move(){
         boolean moved = false;
         GameManager.changeBoardField(x, y, ' ');
         Random ran = new Random();
@@ -55,24 +54,9 @@ public abstract class RoadUser {
                 }
         }while(!moved);
         previousDirection = direction;
-        return new int[] {x,y};
+        return true;
     }
     protected boolean isAccident(int x, int y){
-        if(GameManager.getBoard()[y][x] != ' ') return true;
-        return false;
-    }
-    /**
-     * Zwraca położenie poziome użytkownika.
-     * @return położenie poziome. 
-     */
-    public int getX(){
-        return x; 
-    }
-    /**
-     * Zwraca położenei pionowe użytkownika. 
-     * @return położenie pionowe.
-     */
-    public int getY(){
-        return y; 
+        return GameManager.getBoard()[y][x] != ' ';
     }
 }
