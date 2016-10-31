@@ -38,7 +38,6 @@ public class Pedestrian extends RoadUser{
                                 found = true;
                             if(!found) i++;
                         }while(!found);
-                        System.out.println("ROWER");
                         bikes.set(i, new BikeDecorator(this));
                         GameManager.getWalkers().remove(this);
                     }else{
@@ -50,7 +49,6 @@ public class Pedestrian extends RoadUser{
                                 found = true;
                             if(!found) i++;
                         }while(!found);
-                        System.out.println("AUTO");
                         cars.set(i, new CarDecorator(this));
                         GameManager.getWalkers().remove(this);
                     }
