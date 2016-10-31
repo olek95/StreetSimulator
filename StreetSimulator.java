@@ -23,6 +23,7 @@ public class StreetSimulator {
         System.out.println("Domyślne rozmiary planszy do gry 79x21. Jeśli chcesz je zmienić wpisz T, aby zastosować domyślne rozmiary "
                 + "wpisz N (należy zmienić rozmiar szczególnie wtedy, jeśli wymiary konsoli uniemożliwią wyświetlenie całej planszy).");
         char change;
+        RoadUser lost = null;
         do{
             change = Character.toUpperCase(in.next().charAt(0));
         }while(change != 'T' && change != 'N');
@@ -56,7 +57,7 @@ public class StreetSimulator {
                     if(bike.getMilage() != 5){ // zakładam że po takim dystansie, element losuje czy chce wyjść z pojazdu czy nie
                         done = bike.move();
                         bike.changeMilage(1); // zakładam że każda tura będzie zwiększać przebieg o 1
-                        if(!done) System.out.println("Rower spowodował wypadek.");
+                        if(!done) lost = bike;
                     }else{
                         bike.changeMilage(-5);
                         if(rand.nextBoolean()) done = bike.getOff();
@@ -73,7 +74,7 @@ public class StreetSimulator {
                         if(car.getMilage() != 5){
                             done = car.move();
                             car.changeMilage(1);
-                            if(!done) System.out.println("Auto spowodowało wypadek.");
+                            if(!done) lost = car;
                         }else{
                             car.changeMilage(-5);
                             if(rand.nextBoolean()) done = car.getOff();
@@ -85,7 +86,7 @@ public class StreetSimulator {
             if(done)
                 do{
                     done = walkers.get(i).move(); 
-                    if(!done) System.out.println("Pieszy spowodował wypadek.");
+                    if(!done) lost = walkers.get(i);
                     i++;
                 }while(i < walkers.size() && done);
             if(!option.equals(" "))
@@ -94,6 +95,9 @@ public class StreetSimulator {
                 }while(!option.equals(" ") && !option.equals("")); // czeka na wciśnięcie entera lub spacji
         }while(done);
         System.out.println("GAME OVER");
+        if(lost instanceof Pedestrian) System.out.println("Pieszy spowodował wypadek.");
+        else if(lost instanceof CarDecorator) System.out.println("Samochód spowodował wypadek.");
+        else if(lost instanceof BikeDecorator) System.out.println("Rower spowodował wypadek.");
         GameManager.drawBoard();
     }
 }
